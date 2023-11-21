@@ -22,3 +22,12 @@ while len(urls) != 0:
         url = element["href"]
         if "https://scrapeme.live/shop" in url:
             urls.append(url)
+            
+    # if the current url is a product page
+    product = {}
+    product["url"] = current_url
+    product["image"] = soup.select_one(".wp-post-image")["src"]
+    product["name"] = soup.select_one(".product_title").text()
+    product["price"] = soup.select_one(".price")
+    
+    products.append(product)
