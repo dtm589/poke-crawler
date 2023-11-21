@@ -7,6 +7,7 @@ products = []
 
 # a list of discovered urls with the first one to start
 urls = ["https://scrapeme.live/shop/"]
+visited_urls = []
 
 # continue until all urls have been visited
 while len(urls) != 0:
@@ -16,12 +17,16 @@ while len(urls) != 0:
     response = requests.get(current_url)
     soup = BeautifulSoup(response.content, 'html.parser')
     
+    # add current url to visited
+    visited_urls.append(current_url)
+    
     link_elements = soup.select("a[href]")
     
     for element in link_elements:
         url = element["href"]
         if "https://scrapeme.live/shop" in url:
-            urls.append(url)
+            if url not in visited_urls and url not in urls:
+                urls.append(url)
             
     # if the current url is a product page
     product = {}
