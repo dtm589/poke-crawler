@@ -13,8 +13,8 @@ while len(urls) != 0:
     # get the page to visit from the list
     current_url = urls.pop()
     
-    responce = requests.get(current_url)
-    soup = BeautifulSoup(responce.content, 'html.parser')
+    response = requests.get(current_url)
+    soup = BeautifulSoup(response.content, 'html.parser')
     
     link_elements = soup.select("a[href]")
     
@@ -27,7 +27,15 @@ while len(urls) != 0:
     product = {}
     product["url"] = current_url
     product["image"] = soup.select_one(".wp-post-image")["src"]
-    product["name"] = soup.select_one(".product_title").text()
+    product["name"] = soup.select_one(".product_title")
     product["price"] = soup.select_one(".price")
     
     products.append(product)
+    
+# initialize the CSV
+with open('products.csv', 'w') as csv_file:
+    writer = csv.writer(csv_file)
+    
+    # to populate the csv
+    for product in products:
+        writer.writerow(product.values())
