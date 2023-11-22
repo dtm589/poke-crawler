@@ -33,7 +33,7 @@ while len(urls) != 0:
     product["url"] = current_url
     product["image"] = soup.select_one(".wp-post-image")["src"]
     product["name"] = soup.select_one(".product_title")
-    product["price"] = soup.select_one(".price")
+    product["price"] = soup.select_one(".amount")
     
     products.append(product)
     
